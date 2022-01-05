@@ -21,7 +21,6 @@ public class Employee {
 
     /*A custom constructor is created when we need to create a new instance,but don't yet have an id*/
     Employee(String name, String role) {
-
         this.name = name;
         this.role = role;
     }
