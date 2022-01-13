@@ -4,8 +4,6 @@ import com.example.rest.domain.Recipes;
 import com.example.rest.repository.RecipesRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 
 @Service
 public class RecipesService {
@@ -20,7 +18,7 @@ public class RecipesService {
       return recipesRepository.findAll();
    }
 
-   public void saveAll(List<Recipes> recipesList){
+   public void saveAll(Iterable<Recipes> recipesList){
       recipesRepository.saveAll(recipesList);
    }
 }
