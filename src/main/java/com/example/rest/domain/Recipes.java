@@ -19,9 +19,6 @@ public class Recipes{
     @Column(name = "id", nullable = false)
     private Long id;
 
-
-
-
     @JsonProperty("name")
     private String name;
 
@@ -48,5 +45,17 @@ public class Recipes{
 
     public String[] getInstructions() {
         return instructions;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setIngredients(String[] ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void setInstructions(String[] instructions) {
+        this.instructions = instructions;
     }
 }

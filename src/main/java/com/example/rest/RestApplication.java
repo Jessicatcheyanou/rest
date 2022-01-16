@@ -35,7 +35,7 @@ public class RestApplication {
 
 			try {
 				List<Recipes> data = mapper.readValue(inputStream,typeReference);
-				recipesService.saveAll(data);
+				recipesService.saveAllRecipes(data);
 				System.out.printf("List of all Recipes saved successfully");
 			} catch (IOException exception){
 				System.out.println("Unable to save recipes:" + exception.toString());
