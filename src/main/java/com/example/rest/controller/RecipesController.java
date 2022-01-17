@@ -14,11 +14,9 @@ import java.util.List;
 @RequestMapping("/recipes")
 public class RecipesController {
 
+    @Autowired
     private RecipesService recipesService;
 
-    public RecipesController(RecipesService recipesService) {
-        this.recipesService = recipesService;
-    }
 
     @GetMapping("/recipes")
     public ResponseEntity<Iterable<Recipes>> getAllRecipes() {

@@ -2,6 +2,7 @@ package com.example.rest.services;
 
 import com.example.rest.domain.Recipes;
 import com.example.rest.repository.RecipesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,11 +12,8 @@ import java.util.List;
 @Service
 public class RecipesService implements IRecipesService {
 
+   @Autowired
    private RecipesRepository recipesRepository;
-
-   public RecipesService(RecipesRepository recipesRepository) {
-      this.recipesRepository = recipesRepository;
-   }
 
 
    @Override
