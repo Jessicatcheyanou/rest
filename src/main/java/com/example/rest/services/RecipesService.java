@@ -27,7 +27,7 @@ public class RecipesService implements IRecipesService {
    @Override
    public void updateRecipes(Recipes recipes, String id) {
       Recipes recipesFromDb = recipesRepository.findById(id).get();
-      System.out.println("Recipes to be updated is:"+ recipesFromDb);
+      System.out.println("Recipes to be updated is:"+ recipesFromDb.getName());
       recipesFromDb.setName(recipes.getName());
       recipesFromDb.setIngredients(recipes.getIngredients());
       recipesFromDb.setInstructions(recipes.getInstructions());

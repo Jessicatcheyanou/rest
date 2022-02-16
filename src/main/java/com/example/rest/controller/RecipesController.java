@@ -53,6 +53,7 @@ public class RecipesController {
         return new ResponseEntity<>(recipes1,HttpStatus.CREATED);
     }
 
+    //Update a Recipe
     @PutMapping({"/recipes/{recipesId}"})
     public ResponseEntity<Recipes> updateRecipes(@PathVariable("recipesId") String recipesId,@RequestBody Recipes recipes){
         recipesService.updateRecipes(recipes,recipesId);
