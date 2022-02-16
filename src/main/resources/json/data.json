@@ -1,4 +1,5 @@
-[
+{
+  "recipes": [
 {
 "name": "scrambledEggs",
 "ingredients": [
@@ -47,4 +48,6 @@
 ]
 }
 ]
+}
+
 

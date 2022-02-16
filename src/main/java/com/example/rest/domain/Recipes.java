@@ -1,39 +1,31 @@
 package com.example.rest.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Objects;
 
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class Recipes{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "name", nullable = false)
     @JsonProperty("name")
     private String name;
 
-    @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+    @JsonProperty("ingredients")
     private String[] ingredients;
 
-    @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+    @JsonProperty("instructions")
     private String[] instructions;
-
-    public Recipes() {
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -57,5 +49,21 @@ public class Recipes{
 
     public void setInstructions(String[] instructions) {
         this.instructions = instructions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Recipes)) return false;
+        Recipes recipes = (Recipes) o;
+        return name.equals(recipes.name) && Arrays.equals(ingredients, recipes.ingredients) && Arrays.equals(instructions, recipes.instructions);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(name);
+        result = 31 * result + Arrays.hashCode(ingredients);
+        result = 31 * result + Arrays.hashCode(instructions);
+        return result;
     }
 }

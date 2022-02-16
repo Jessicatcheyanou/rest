@@ -1,5 +1,7 @@
 package com.example.rest.services;
 
+import com.example.rest.domain.Data;
+import com.example.rest.domain.Details;
 import com.example.rest.domain.Recipes;
 import com.example.rest.repository.RecipesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -17,14 +20,14 @@ public class RecipesService implements IRecipesService {
 
 
    @Override
-   public Recipes getRecipesById(Long id) {
+   public Recipes getRecipesById(String id) {
       return recipesRepository.findById(id).get();
    }
 
    @Override
-   public void updateRecipes(Recipes recipes, Long id) {
+   public void updateRecipes(Recipes recipes, String id) {
       Recipes recipesFromDb = recipesRepository.findById(id).get();
-      System.out.println("Recipes to be updated is:"+recipesFromDb.toString());
+      System.out.println("Recipes to be updated is:"+ recipesFromDb);
       recipesFromDb.setName(recipes.getName());
       recipesFromDb.setIngredients(recipes.getIngredients());
       recipesFromDb.setInstructions(recipes.getInstructions());
@@ -32,15 +35,14 @@ public class RecipesService implements IRecipesService {
    }
 
    @Override
-   public void deleteRecipes(Long recipesId) {
+   public void deleteRecipes(String recipesId) {
       recipesRepository.deleteById(recipesId);
    }
 
    @Override
    public List<Recipes> getAllRecipes() {
-      List<Recipes> recipesList = new ArrayList<>();
-      recipesRepository.findAll().forEach(recipesList::add);
-      return recipesList;
+
+      return (List<Recipes>) recipesRepository.findAll();
    }
 
    @Override
@@ -49,8 +51,30 @@ public class RecipesService implements IRecipesService {
    }
 
    @Override
-   public void saveAllRecipes(List<Recipes> recipesList) {
-      recipesRepository.saveAll(recipesList);
+   public void saveAllRecipes(Data recipesList) {
+      recipesRepository.saveAll(recipesList.recipes);
+   }
+
+   @Override
+   public List<String> getAllRecipesNames() {
+      List<String> recipesNames = new ArrayList<>();
+      for (Recipes recipes:getAllRecipes()){
+         recipesNames.add(recipes.getName());
+      }
+      return recipesNames;
+   }
+
+   @Override
+   public Details getRecipeDetails(String recipeName) {
+      Details details = new Details();
+
+      for (Recipes recipeN: getAllRecipes()){
+         if (Objects.equals(recipeN.getName(), recipeName)){
+            details.setIngredients(recipeN.getIngredients());
+            details.setNumSteps(recipeN.getInstructions().length);
+         }
+      }
+      return details;
    }
 
 

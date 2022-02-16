@@ -1,5 +1,6 @@
 package com.example.rest;
 
+import com.example.rest.domain.Data;
 import com.example.rest.domain.Recipes;
 import com.example.rest.services.RecipesService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -28,13 +29,13 @@ public class RestApplication {
 			//read and load json
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-			TypeReference<List<Recipes>> typeReference = new TypeReference<>() {
+			TypeReference<Data> typeReference = new TypeReference<>() {
 			};
 
 			InputStream inputStream = TypeReference.class.getResourceAsStream("/json/data.json");
 
 			try {
-				List<Recipes> data = mapper.readValue(inputStream,typeReference);
+				Data data = mapper.readValue(inputStream,typeReference);
 				recipesService.saveAllRecipes(data);
 				System.out.printf("List of all Recipes saved successfully");
 			} catch (IOException exception){
