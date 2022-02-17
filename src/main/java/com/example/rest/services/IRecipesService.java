@@ -5,6 +5,7 @@ import com.example.rest.domain.Details;
 import com.example.rest.domain.Recipes;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IRecipesService {
     Recipes getRecipesById(String name);

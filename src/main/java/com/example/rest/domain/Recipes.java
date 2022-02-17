@@ -13,7 +13,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 public class Recipes{
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +25,7 @@ public class Recipes{
 
     @JsonProperty("instructions")
     private String[] instructions;
+
 
     public String getName() {
         return name;
@@ -49,6 +49,9 @@ public class Recipes{
 
     public void setInstructions(String[] instructions) {
         this.instructions = instructions;
+    }
+
+    public Recipes() {
     }
 
     @Override

@@ -4,14 +4,12 @@ import com.example.rest.domain.Details;
 import com.example.rest.domain.Recipes;
 import com.example.rest.services.RecipesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("")
@@ -19,6 +17,7 @@ public class RecipesController {
 
     @Autowired
     private RecipesService recipesService;
+    private Details details;
 
     //Get all recipes
     @GetMapping("/recipes")
@@ -35,29 +34,35 @@ public class RecipesController {
     }
 
     //Get the following recipe`s details: List of Ingredients and Number of steps
+
     @GetMapping("/recipes/details/{recipeName}")
     public ResponseEntity<Details> getARecipeDetails(@PathVariable String recipeName) {
-        return new ResponseEntity<>(recipesService.getRecipeDetails(recipeName),HttpStatus.OK);
-    }
+        return new ResponseEntity<>(recipesService.getRecipeDetails(recipeName), HttpStatus.OK);    }
 
     //Get all information concerning a Recipe
-    @GetMapping({"/recipes/{recipesName}"})
+    @GetMapping("/recipes/{recipesName}")
     public ResponseEntity<Recipes> getRecipes(@PathVariable String recipesName){
-        return new ResponseEntity<>(recipesService.getRecipesById(recipesName),HttpStatus.OK);
+
+        if(Stream.of(recipesService.getAllRecipesNames()).anyMatch(s -> s.contains(recipesName)))
+        {
+            return new ResponseEntity<>(recipesService.getRecipesById(recipesName),HttpStatus.OK);
+        } else {
+           return new ResponseEntity<>(new Recipes(),HttpStatus.OK);
+        }
+
     }
 
     //Add and save a new Recipe
     @PostMapping("/recipes")
     public ResponseEntity<Recipes> saveRecipes(@RequestBody Recipes recipes){
-        Recipes recipes1 = recipesService.addRecipes(recipes);
-        return new ResponseEntity<>(recipes1,HttpStatus.CREATED);
+        return new ResponseEntity<>(recipesService.addRecipes(recipes),HttpStatus.NO_CONTENT);
     }
 
     //Update a Recipe
     @PutMapping({"/recipes/{recipesId}"})
     public ResponseEntity<Recipes> updateRecipes(@PathVariable("recipesId") String recipesId,@RequestBody Recipes recipes){
         recipesService.updateRecipes(recipes,recipesId);
-        return new ResponseEntity<>(recipesService.getRecipesById(recipesId),HttpStatus.OK);
+        return new ResponseEntity<>(recipesService.getRecipesById(recipesId),HttpStatus.NO_CONTENT);
     }
 
     //

@@ -3,6 +3,7 @@ package com.example.rest.services;
 import com.example.rest.domain.Data;
 import com.example.rest.domain.Details;
 import com.example.rest.domain.Recipes;
+import com.example.rest.exceptions.RecipesAndDetailsNotFoundException;
 import com.example.rest.repository.RecipesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.Future;
+import java.util.stream.Stream;
 
 
 @Service
@@ -47,7 +51,17 @@ public class RecipesService implements IRecipesService {
 
    @Override
    public Recipes addRecipes(Recipes recipes) {
-      return recipesRepository.save(recipes);
+
+       if (Stream.of(getAllRecipes()).noneMatch(e -> e.contains(recipes)))
+       {
+
+          return recipesRepository.save(recipes);
+       }
+       else {
+
+          return null;
+       }
+
    }
 
    @Override
